@@ -1,1 +1,1 @@
-This is JMWS but for Spigot.
+# This is JMWS but for Spigot.
