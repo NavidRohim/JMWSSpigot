@@ -1,0 +1,22 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'me.brynview.navidrohim'
+version = '0.0.1-alpha.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Source: https://mvnrepository.com/artifact/org.joml/joml
+    implementation 'org.joml:joml:1.10.8'
+    // Source: https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+}
+
+test {
+    useJUnitPlatform()
+}
