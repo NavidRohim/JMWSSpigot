@@ -10,7 +10,6 @@ public interface WSPlayer {
     UUID getUUID();
 
     void sendHandshake();
-    void sendActionCommand(String command);
     void sendActionCommand(ActionPacket command);
 
     WSNetworkHandler getNetworkHandler();

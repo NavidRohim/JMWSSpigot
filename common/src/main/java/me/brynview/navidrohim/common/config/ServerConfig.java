@@ -4,6 +4,7 @@ import me.brynview.navidrohim.common.CommonClass;
 import me.brynview.navidrohim.common.Constants;
 import me.brynview.navidrohim.common.exceptions.ServerConfigurationException;
 import me.brynview.navidrohim.common.helper.CommonHelper;
+import me.brynview.navidrohim.common.network.packets.HandshakePacket;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -56,6 +57,7 @@ public class ServerConfig {
                     ensureExistence();
                     Constants.getLogger().error("JMWS config was corrupted or from an older version. Created new config, so you may have to set your old config values.");
                 }
+                HandshakePacket.setServerConfigForClient();
             }
 
         } catch (SecurityException securityException) {

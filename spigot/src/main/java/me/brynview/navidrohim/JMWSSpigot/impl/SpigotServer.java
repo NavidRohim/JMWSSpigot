@@ -34,7 +34,7 @@ public class SpigotServer implements WSServer {
     public void sendActionCommandToClient(UUID uuid, String packetEncodable)
     {
         SpigotPlayer player = this.getWSPlayer(uuid);
-        player.sendActionCommand(packetEncodable);
+        new ActionPacket(packetEncodable, player).send();
     }
 
     @Override

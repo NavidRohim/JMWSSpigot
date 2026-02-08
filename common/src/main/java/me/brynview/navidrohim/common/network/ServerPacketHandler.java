@@ -125,7 +125,7 @@ public class ServerPacketHandler {
                 if (jsonData.getBytes().length >= 2000000) { // packet size limit, I tried to reach this limit, but I got nowhere near.
                     sendUserMessage(player, "error.jmws.error_packet_size", false, true);
                 } else {
-                    player.sendActionCommand(jsonData);
+                    new ActionPacket(jsonData, player).send();
                 }
             } catch (IOException ioe) {
                 Constants.getLogger().error("Error on server when trying to process sync from %s ERROR: %s".formatted(player.getUUID(), ioe.toString()));

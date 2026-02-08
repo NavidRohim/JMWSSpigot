@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import me.brynview.navidrohim.common.Constants;
 import me.brynview.navidrohim.common.api.WSPacket;
 import me.brynview.navidrohim.common.api.WSPlayer;
 import me.brynview.navidrohim.common.helper.CommandFactory;
@@ -30,6 +31,15 @@ public final class ActionPacket implements WSPacket {
         _setCommandAndArguments();
     }
 
+    public ActionPacket(String jsonString, WSPlayer player)
+    {
+        this.rawString = jsonString;
+        this.data = Utils.getByteArrayOutputStreamWithEncodedString(jsonString);
+        this.player = player;
+
+        _setCommandAndArguments();
+    }
+
     private void _setCommandAndArguments()
     {
         JsonObject jsonifyied = CommandFactory.getJsonObjectFromJsonString(rawString);
@@ -49,5 +59,28 @@ public final class ActionPacket implements WSPacket {
     public void process()
     {
         ServerPacketHandler.handleIncomingActionCommand(this, this.player);
+    }
+
+    @Override
+    public byte[] encode()
+    {
+        return this.data;
+    }
+
+    public ActionPacket send()
+    {
+        this.player.sendActionCommand(this);
+        return this;
+    }
+
+    @Override
+    public WSPlayer getRecipient()
+    {
+        return this.player;
+    }
+
+    public static String getChannel()
+    {
+        return "%s:action_command".formatted(Constants.MODID);
     }
 }

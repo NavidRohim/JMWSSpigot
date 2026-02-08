@@ -3,6 +3,7 @@ package me.brynview.navidrohim.common;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.brynview.navidrohim.common.config.ServerConfig;
+import me.brynview.navidrohim.common.network.packets.HandshakePacket;
 
 import java.io.File;
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -28,6 +29,7 @@ public class CommonClass {
         Constants.getLogger().info("Creating server resources..");
         ServerConfig.ensureExistence();
         _createServerResources();
+
         // It is common for all supported loaders to provide a similar feature that can not be used directly in the
         // common code. A popular way to get around this is using Java's built-in service loader feature to create
         // your own abstraction layer. You can learn more about this in our provided services class. In this example

@@ -2,6 +2,7 @@ package me.brynview.navidrohim.JMWSSpigot.impl;
 
 import me.brynview.navidrohim.JMWSSpigot.JMWSSpigot;
 import me.brynview.navidrohim.common.Constants;
+import me.brynview.navidrohim.common.api.WSPacket;
 import me.brynview.navidrohim.common.api.WSPlayer;
 import me.brynview.navidrohim.common.api.WSNetworkHandler;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
@@ -26,18 +27,19 @@ public class SpigotNetworkHandler implements WSNetworkHandler {
     }
 
     @Override
-    public ActionPacket getActionPacket() {
-        return null;
-    }
-
-    @Override
     public void sendHandshake()
     {
-        this.sendPacket(Constants.HANDSHAKE, HandshakePacket.generateHandshake());
+        new HandshakePacket(this.networkOwner).send();
     }
 
     public void sendPacket(String channel, byte[] packetData)
     {
         this.player.sendPluginMessage(JMWSSpigot.getPluginInstance(), channel, packetData);
+    }
+
+    @Override
+    public void sendPacket(String channel, WSPacket packet)
+    {
+        this.player.sendPluginMessage(JMWSSpigot.getPluginInstance(), channel, packet.encode());
     }
 }

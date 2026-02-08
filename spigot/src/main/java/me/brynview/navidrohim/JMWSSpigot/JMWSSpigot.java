@@ -1,15 +1,19 @@
 package me.brynview.navidrohim.JMWSSpigot;
 
+import me.brynview.navidrohim.JMWSSpigot.commands.AdminCommands;
+import me.brynview.navidrohim.JMWSSpigot.commands.SharingCommands;
 import me.brynview.navidrohim.JMWSSpigot.events.JMWSEvents;
+import me.brynview.navidrohim.JMWSSpigot.impl.SpigotPlayer;
 import me.brynview.navidrohim.JMWSSpigot.impl.SpigotServer;
-import me.brynview.navidrohim.JMWSSpigot.server.payloads.ActionPayload;
-import me.brynview.navidrohim.JMWSSpigot.server.payloads.HandshakePayload;
 import me.brynview.navidrohim.common.CommonClass;
-import me.brynview.navidrohim.common.Constants;
-import org.bukkit.Server;
+import me.brynview.navidrohim.common.network.packets.ActionPacket;
+import me.brynview.navidrohim.common.network.packets.HandshakePacket;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jspecify.annotations.NonNull;
 
-public final class JMWSSpigot extends JavaPlugin {
+public final class JMWSSpigot extends JavaPlugin implements PluginMessageListener {
 
     public static SpigotServer server;
     public static JMWSSpigot plugin;
@@ -23,13 +27,24 @@ public final class JMWSSpigot extends JavaPlugin {
 
         CommonClass.init();
         this.registerNetworkChannels();
+        this.registerAdminCommands();
+
     }
 
+    private void registerAdminCommands() {
+        SharingCommands sharingCommands = new SharingCommands();
+        AdminCommands adminCommands = new AdminCommands();
+
+        this.getCommand("share_waypoint").setExecutor(sharingCommands);
+        this.getCommand("share_group").setExecutor(sharingCommands);
+        this.getCommand("stop_sharing_waypoint").setExecutor(sharingCommands);
+        this.getCommand("stop_sharing_group").setExecutor(sharingCommands);
+    }
     private void registerNetworkChannels()
     {
-        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, Constants.HANDSHAKE);
-        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, Constants.ACTION_COMMAND);
-        server.getNativeServer().getMessenger().registerIncomingPluginChannel(this, Constants.ACTION_COMMAND, new ActionPayload());
+        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, HandshakePacket.getChannel());
+        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, ActionPacket.getChannel());
+        server.getNativeServer().getMessenger().registerIncomingPluginChannel(this, ActionPacket.getChannel(), this);
     }
 
     @Override
@@ -39,5 +54,11 @@ public final class JMWSSpigot extends JavaPlugin {
 
     public static JMWSSpigot getPluginInstance() {
         return JMWSSpigot.plugin;
+    }
+
+    @Override
+    public void onPluginMessageReceived(@NonNull String channel, @NonNull Player player, byte @NonNull [] message) {
+        ActionPacket packet = new ActionPacket(message, new SpigotPlayer(player));
+        packet.process();
     }
 }

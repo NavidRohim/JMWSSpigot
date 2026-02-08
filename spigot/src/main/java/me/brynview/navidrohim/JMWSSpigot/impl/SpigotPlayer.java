@@ -42,19 +42,15 @@ public class SpigotPlayer implements WSPlayer
     public UUID getUUID() {
         return nativePayerObj.getUniqueId();
     }
+
     @Override
     public void sendHandshake()
     {
-        Bukkit.getScheduler().runTaskLater(JMWSSpigot.getPluginInstance(), this.spigotNetworkHandler::sendHandshake, 20);
-    }
-
-    @Override
-    public void sendActionCommand(String command) {
-        this.spigotNetworkHandler.sendPacket(Constants.ACTION_COMMAND, WSPacket.encode(command));
+        Bukkit.getScheduler().runTaskLater(JMWSSpigot.getPluginInstance(), this.getNetworkHandler()::sendHandshake, 20);
     }
 
     @Override
     public void sendActionCommand(ActionPacket command) {
-        this.spigotNetworkHandler.sendPacket(Constants.ACTION_COMMAND, command.data);
+        this.getNetworkHandler().sendPacket(Constants.ACTION_COMMAND, command.encode());
     }
 }
