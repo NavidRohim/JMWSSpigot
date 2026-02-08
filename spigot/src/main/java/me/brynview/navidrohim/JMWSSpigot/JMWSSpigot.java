@@ -2,12 +2,14 @@ package me.brynview.navidrohim.JMWSSpigot;
 
 import me.brynview.navidrohim.JMWSSpigot.commands.AdminCommands;
 import me.brynview.navidrohim.JMWSSpigot.commands.SharingCommands;
+import me.brynview.navidrohim.JMWSSpigot.commands.completions.SharingCommandCompletions;
 import me.brynview.navidrohim.JMWSSpigot.events.JMWSEvents;
 import me.brynview.navidrohim.JMWSSpigot.impl.SpigotPlayer;
 import me.brynview.navidrohim.JMWSSpigot.impl.SpigotServer;
 import me.brynview.navidrohim.common.CommonClass;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.common.network.packets.HandshakePacket;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -25,7 +27,7 @@ public final class JMWSSpigot extends JavaPlugin implements PluginMessageListene
         JMWSSpigot.server = new SpigotServer(getServer());
         JMWSSpigot.plugin = this;
 
-        CommonClass.init();
+        CommonClass.init(JMWSSpigot.server);
         this.registerNetworkChannels();
         this.registerAdminCommands();
 
@@ -35,10 +37,24 @@ public final class JMWSSpigot extends JavaPlugin implements PluginMessageListene
         SharingCommands sharingCommands = new SharingCommands();
         AdminCommands adminCommands = new AdminCommands();
 
-        this.getCommand("share_waypoint").setExecutor(sharingCommands);
-        this.getCommand("share_group").setExecutor(sharingCommands);
-        this.getCommand("stop_sharing_waypoint").setExecutor(sharingCommands);
-        this.getCommand("stop_sharing_group").setExecutor(sharingCommands);
+        SharingCommandCompletions sharingCommandCompletions = new SharingCommandCompletions();
+
+        PluginCommand shareWaypoint = getCommand("share_waypoint");
+        PluginCommand shareGroup = getCommand("share_group");
+        PluginCommand stopSharingWaypoint = getCommand("stop_sharing_waypoint");
+        PluginCommand stopSharingGroup = getCommand("stop_sharing_group");
+
+        shareWaypoint.setTabCompleter(sharingCommandCompletions);
+        shareWaypoint.setExecutor(sharingCommands);
+
+        shareGroup.setTabCompleter(sharingCommandCompletions);
+        shareGroup.setExecutor(sharingCommands);
+
+        stopSharingWaypoint.setTabCompleter(sharingCommandCompletions);
+        stopSharingWaypoint.setExecutor(sharingCommands);
+
+        stopSharingGroup.setTabCompleter(sharingCommandCompletions);
+        stopSharingGroup.setExecutor(sharingCommands);
     }
     private void registerNetworkChannels()
     {

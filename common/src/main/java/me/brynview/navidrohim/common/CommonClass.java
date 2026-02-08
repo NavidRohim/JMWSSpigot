@@ -2,6 +2,7 @@ package me.brynview.navidrohim.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.brynview.navidrohim.common.api.WSServer;
 import me.brynview.navidrohim.common.config.ServerConfig;
 import me.brynview.navidrohim.common.network.packets.HandshakePacket;
 
@@ -17,6 +18,7 @@ public class CommonClass {
 
     public static final Gson gson = new Gson();
     public static final Gson gsonExcludeNoExpose = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    public static WSServer server;
 
     public static void _createServerResources() {
         new File("./jmws").mkdir();
@@ -25,11 +27,12 @@ public class CommonClass {
     }
 
 
-    public static void init() {
+    public static void init(WSServer serverInstance) {
         Constants.getLogger().info("Creating server resources..");
         ServerConfig.ensureExistence();
         _createServerResources();
 
+        CommonClass.server = serverInstance;
         // It is common for all supported loaders to provide a similar feature that can not be used directly in the
         // common code. A popular way to get around this is using Java's built-in service loader feature to create
         // your own abstraction layer. You can learn more about this in our provided services class. In this example

@@ -5,6 +5,7 @@ import me.brynview.navidrohim.common.api.WSServer;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -41,6 +42,12 @@ public class SpigotServer implements WSServer {
     public SpigotPlayer getWSPlayer(UUID uuid)
     {
         return new SpigotPlayer(this.getNativeServer().getPlayer(uuid));
+    }
+
+    @Override
+    @Nullable
+    public WSPlayer getWSPlayer(String name) {
+        return new SpigotPlayer(this.getNativeServer().getPlayerExact(name));
     }
 
     public Server getNativeServer()

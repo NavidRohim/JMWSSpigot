@@ -8,4 +8,5 @@ public interface WSServer {
     void sendActionCommandToClient(UUID uuid, ActionPacket packet);
     void sendActionCommandToClient(UUID uuid, String packetEncodable);
     WSPlayer getWSPlayer(UUID uuid);
+    WSPlayer getWSPlayer(String name);
 }
