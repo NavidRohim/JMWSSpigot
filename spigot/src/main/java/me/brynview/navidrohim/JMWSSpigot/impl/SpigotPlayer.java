@@ -1,0 +1,60 @@
+package me.brynview.navidrohim.JMWSSpigot.impl;
+
+import me.brynview.navidrohim.JMWSSpigot.JMWSSpigot;
+import me.brynview.navidrohim.common.Constants;
+import me.brynview.navidrohim.common.api.WSPacket;
+import me.brynview.navidrohim.common.api.WSPlayer;
+import me.brynview.navidrohim.common.api.WSNetworkHandler;
+import me.brynview.navidrohim.common.api.WSServer;
+import me.brynview.navidrohim.common.network.packets.ActionPacket;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
+
+public class SpigotPlayer implements WSPlayer
+{
+    private final Player nativePayerObj;
+    private final SpigotNetworkHandler spigotNetworkHandler;
+
+    public SpigotPlayer(Player nativePlayerObj)
+    {
+        this.nativePayerObj = nativePlayerObj;
+        this.spigotNetworkHandler = new SpigotNetworkHandler(this, nativePlayerObj);
+    }
+
+    @Override
+    public WSNetworkHandler getNetworkHandler() {
+        return this.spigotNetworkHandler;
+    }
+
+    @Override
+    public WSServer getServer() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return this.nativePayerObj.getDisplayName();
+    }
+
+    @Override
+    public UUID getUUID() {
+        return nativePayerObj.getUniqueId();
+    }
+    @Override
+    public void sendHandshake()
+    {
+        Bukkit.getScheduler().runTaskLater(JMWSSpigot.getPluginInstance(), this.spigotNetworkHandler::sendHandshake, 20);
+    }
+
+    @Override
+    public void sendActionCommand(String command) {
+        this.spigotNetworkHandler.sendPacket(Constants.ACTION_COMMAND, WSPacket.encode(command));
+    }
+
+    @Override
+    public void sendActionCommand(ActionPacket command) {
+        this.spigotNetworkHandler.sendPacket(Constants.ACTION_COMMAND, command.data);
+    }
+}

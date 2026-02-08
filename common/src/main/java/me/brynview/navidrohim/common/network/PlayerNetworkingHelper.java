@@ -1,0 +1,32 @@
+package me.brynview.navidrohim.common.network;
+
+import me.brynview.navidrohim.common.CommonClass;
+import me.brynview.navidrohim.common.api.WSPlayer;
+import me.brynview.navidrohim.common.enums.JMWSMessageType;
+import me.brynview.navidrohim.common.helper.CommandFactory;
+
+import java.util.UUID;
+
+public class PlayerNetworkingHelper {
+    public static void sendUserMessage(WSPlayer player, String messageKey, Boolean overlay, boolean isError, boolean silent) {
+        if (!silent) // is this dumb
+        {
+            player.sendActionCommand(CommandFactory.makeClientAlertRequestJson(messageKey, overlay, isError ? JMWSMessageType.FAILURE : JMWSMessageType.NEUTRAL));
+        }
+    }
+
+    public static void sendUserMessage(WSPlayer player, String messageKey, Boolean overlay, boolean isError) {
+        sendUserMessage(player, messageKey, overlay, isError, false);
+    }
+
+    public static void sendUserMessage(WSPlayer player, String messageKey, Boolean overlay, JMWSMessageType messageType)
+    {
+        player.sendActionCommand(CommandFactory.makeClientAlertRequestJson(messageKey, overlay, messageType));
+    }
+
+    /* Will need server layer for this
+    public static void sendUserMessage(UUID player, String messageKey, Boolean overlay, JMWSMessageType messageType) {
+        JMWSActionPayload messagePayload = new JMWSActionPayload(CommandFactory.makeClientAlertRequestJson(messageKey, overlay, messageType));
+        Dispatcher.sendToClient(messagePayload, CommonClass.getMinecraftServerInstance().getPlayerList().getPlayer(player));
+    }*/
+}

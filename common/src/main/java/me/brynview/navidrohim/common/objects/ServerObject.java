@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.brynview.navidrohim.common.CommonClass;
 import me.brynview.navidrohim.common.Constants;
-import me.brynview.navidrohim.common.api.JMWSPlayer;
+import me.brynview.navidrohim.common.api.WSPlayer;
 import me.brynview.navidrohim.common.enums.ObjectType;
 import me.brynview.navidrohim.common.helper.CommonHelper;
 import me.brynview.navidrohim.common.io.JMWSServerIO;
@@ -243,7 +243,7 @@ public class ServerObject extends LegacyObject implements PossessesIdentifier {
         return false;
     }
 
-    public void share(JMWSPlayer us, JMWSPlayer player) {
+    public void share(WSPlayer us, WSPlayer player) {
 
         //Dispatcher.sendToClient(new JMWSActionPayload(CommandFactory.makeObjectShareRequestForUser(this.rawPacketData, this.ownerUUID, player.getUUID(), ShareRequest.Direction.FOR_CLIENT, getObjectType())), player); // Send share request to player TODO: PACKET
         // Send information of the share to the sender. This is needed because this command is server-side only and the client will have no knowledge of the shared obj.

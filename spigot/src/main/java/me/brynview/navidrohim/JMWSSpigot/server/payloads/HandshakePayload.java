@@ -1,6 +1,6 @@
 package me.brynview.navidrohim.JMWSSpigot.server.payloads;
 
-import me.brynview.navidrohim.JMWSSpigot.Constants;
+import me.brynview.navidrohim.common.Constants;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jspecify.annotations.NonNull;
