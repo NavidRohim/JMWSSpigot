@@ -7,4 +7,4 @@ import dev.jorel.commandapi.executors.PlayerCommandExecutor;
 
 import java.util.List;
 
-public record Command(String commandName, PlayerCommandExecutor executor, Argument... arguments) {}
+public record Command(String commandName, PlayerCommandExecutor executor, Argument<?>... arguments) {}

@@ -45,4 +45,14 @@ public class SuggestionProvider {
     {
         return getUserObjectsAsNameHashmap(playerId, ObjectType.WAYPOINT, false, true).keySet().stream().toList();
     }
+
+    public static List<String> suggestGlobalWaypoints(UUID playerId)
+    {
+        return getUserObjectsAsNameHashmap(playerId, ObjectType.WAYPOINT, true, false).keySet().stream().toList();
+    }
+
+    public static List<String> suggestGlobalGroups(UUID playerId)
+    {
+        return getUserObjectsAsNameHashmap(playerId, ObjectType.GROUP, true, false).keySet().stream().toList();
+    }
 }

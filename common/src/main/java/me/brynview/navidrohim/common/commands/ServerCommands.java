@@ -59,7 +59,7 @@ public class ServerCommands {
         return 1;
     }
 
-    public static int globalShare(String objectName, WSPlayer player, ObjectType objectType, boolean make)
+    public static void globalShare(String objectName, WSPlayer player, ObjectType objectType, boolean make)
     {
         HashMap<String, Path> userObjs = JMWSServerIO.getNameHashmapLookup(player.getUUID(), objectType);
         @Nullable Path specifiedObject = userObjs.get(objectName);
@@ -83,6 +83,5 @@ public class ServerCommands {
         } else {
             PlayerNetworkingHelper.sendUserMessage(player, "sharing.jmws.no_matching_object", true, JMWSMessageType.FAILURE);
         }
-        return 1;
     }
 }

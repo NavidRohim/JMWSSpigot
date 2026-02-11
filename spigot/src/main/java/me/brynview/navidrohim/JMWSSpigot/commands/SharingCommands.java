@@ -1,6 +1,7 @@
 package me.brynview.navidrohim.JMWSSpigot.commands;
 
 import dev.jorel.commandapi.CommandAPICommand;
+import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.*;
 import dev.jorel.commandapi.executors.CommandArguments;
 import me.brynview.navidrohim.common.CommonClass;
@@ -41,10 +42,43 @@ public class SharingCommands {
             )
     );
 
+    private static final List<Command> adminCommands = List.of(
+            new Command(
+                    "create_global_waypoint",
+                    SharingCommands::createServerWp,
+                    SharingCommands.waypointArgument()
+            ),
+            new Command(
+                    "create_global_group",
+                    SharingCommands::createServerGp,
+                    SharingCommands.groupArgument()
+            ),
+            new Command(
+                    "remove_global_group",
+                    SharingCommands::removeServerGp,
+                    SharingCommands.globalGroupArgument()
+            ),
+            new Command(
+                    "remove_global_waypoint",
+                    SharingCommands::removeServerWp,
+                    SharingCommands.globalWaypointArgument()
+            )
+    );
+
     public static void register() {
         commands.forEach((cmd) -> {
             new CommandAPICommand(cmd.commandName()).withArguments(cmd.arguments()).executesPlayer(cmd.executor()).register();
         });
+    }
+
+    public static void registerAdmin() {
+
+        CommandAPICommand adminCommandBase = new CommandAPICommand("jmws_admin");
+        adminCommandBase.setPermission(CommandPermission.OP);
+        adminCommands.forEach((cmd) -> {
+            adminCommandBase.withSubcommand(new CommandAPICommand(cmd.commandName()).withPermission(CommandPermission.OP).withArguments(cmd.arguments()).executesPlayer(cmd.executor()));
+        });
+        adminCommandBase.register();
     }
 
     private static void doGpShareArgPrep(CommandSender commandSender, CommandArguments commandArguments)
@@ -85,6 +119,38 @@ public class SharingCommands {
         ServerCommands.removeShare(spigotPlayerSender, waypointName, ObjectType.WAYPOINT);
     }
 
+    private static void createServerWp(CommandSender commandSender, CommandArguments commandArguments)
+    {
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        String waypointName = commandArguments.get("waypointName").toString();
+
+        ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.WAYPOINT, true);
+    }
+
+    private static void createServerGp(CommandSender commandSender, CommandArguments commandArguments)
+    {
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        String waypointName = commandArguments.get("groupName").toString();
+
+        ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.GROUP, true);
+    }
+
+    private static void removeServerWp(CommandSender commandSender, CommandArguments commandArguments)
+    {
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        String waypointName = commandArguments.get("waypointName").toString();
+
+        ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.WAYPOINT, false);
+    }
+
+    private static void removeServerGp(CommandSender commandSender, CommandArguments commandArguments)
+    {
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        String waypointName = commandArguments.get("groupName").toString();
+
+        ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.GROUP, false);
+    }
+
     // Suggestions
 
     private static GreedyStringArgument waypointArgument()
@@ -119,6 +185,24 @@ public class SharingCommands {
         GreedyStringArgument argument = new GreedyStringArgument("groupName");
         argument.replaceSuggestions(ArgumentSuggestions.stringCollection(
                 (cssi -> SuggestionProvider.suggestSharedGroups(cssi.sender().getServer().getPlayer(cssi.sender().getName()).getUniqueId()))
+        ));
+        return argument;
+    }
+
+    private static GreedyStringArgument globalWaypointArgument()
+    {
+        GreedyStringArgument argument = new GreedyStringArgument("waypointName");
+        argument.replaceSuggestions(ArgumentSuggestions.stringCollection(
+                (cssi -> SuggestionProvider.suggestGlobalWaypoints(cssi.sender().getServer().getPlayer(cssi.sender().getName()).getUniqueId()))
+        ));
+        return argument;
+    }
+
+    private static GreedyStringArgument globalGroupArgument()
+    {
+        GreedyStringArgument argument = new GreedyStringArgument("groupName");
+        argument.replaceSuggestions(ArgumentSuggestions.stringCollection(
+                (cssi -> SuggestionProvider.suggestGlobalGroups(cssi.sender().getServer().getPlayer(cssi.sender().getName()).getUniqueId()))
         ));
         return argument;
     }

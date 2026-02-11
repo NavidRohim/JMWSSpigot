@@ -57,7 +57,7 @@ public class SpigotPlayer implements WSPlayer
     @Override
     public void sendHandshake()
     {
-        Bukkit.getScheduler().runTaskLater(JMWSSpigot.getPluginInstance(), this.getNetworkHandler()::sendHandshake, 20);
+        Bukkit.getScheduler().runTaskLater(JMWSSpigot.getPluginInstance(), this.getNetworkHandler()::sendHandshake, 10);
     }
 
     @Override
