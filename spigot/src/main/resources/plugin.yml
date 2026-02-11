@@ -2,16 +2,3 @@ name: JMWSSpigot
 version: '0.0.1-alpha.1'
 main: me.brynview.navidrohim.JMWSSpigot.JMWSSpigot
 api-version: '1.21.11'
-commands:
-  share_waypoint:
-    description: Share a waypoint with a specified user.
-    usage: /share_waypoint <username> <waypoint_name>
-  share_group:
-    description: Share a group with a specified user.
-    usage: /share_group <username> <group_name>
-  stop_sharing_group:
-    description: Stops sharing a group with all users.
-    usage: /stop_sharing_group <group_name>
-  stop_sharing_waypoint:
-    description: Stops sharing a waypoint with all users.
-    usage: /stop_sharing_waypoint <waypoint_name>

@@ -1,5 +1,6 @@
 package me.brynview.navidrohim.JMWSSpigot.events;
 
+import me.brynview.navidrohim.common.Constants;
 import me.brynview.navidrohim.common.events.CommonEvents;
 import me.brynview.navidrohim.JMWSSpigot.impl.SpigotPlayer;
 import org.bukkit.event.EventHandler;

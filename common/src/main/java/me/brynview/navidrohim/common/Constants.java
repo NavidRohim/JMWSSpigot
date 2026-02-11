@@ -14,12 +14,9 @@ public class Constants {
     }
 
     public static final String MODID = "jmws";
-    public static final String VERSION = "1.2.1-1.21.1"; // This is purely for display and is not needed
+    public static final String VERSION = "1.2.1-1.21.11-alpha.1"; // This is purely for display and is not needed
     public static final double SERVER_VERSION = 1.102;
-    public static final boolean DEBUG = VERSION.contains("-beta.");
+    public static final boolean DEBUG = VERSION.contains("-beta.") || VERSION.contains("-alpha.");
 
-
-    public static final String ACTION_COMMAND = "%s:action_command".formatted(MODID);
-    public static final String HANDSHAKE = "%s:jmws_handshake".formatted(MODID);
     public static final int PACKET_SIZE = 2_097_000;
 }

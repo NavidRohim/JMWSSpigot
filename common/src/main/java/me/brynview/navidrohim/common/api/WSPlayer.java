@@ -6,6 +6,9 @@ import java.util.UUID;
 
 public interface WSPlayer {
 
+    @Override
+    boolean equals(Object obj);
+
     String getName();
     UUID getUUID();
 

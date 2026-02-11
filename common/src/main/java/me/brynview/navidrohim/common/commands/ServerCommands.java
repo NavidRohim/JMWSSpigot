@@ -1,5 +1,6 @@
 package me.brynview.navidrohim.common.commands;
 
+import me.brynview.navidrohim.common.Constants;
 import me.brynview.navidrohim.common.api.WSPlayer;
 import me.brynview.navidrohim.common.config.ServerConfig;
 import me.brynview.navidrohim.common.enums.JMWSMessageType;
@@ -13,10 +14,10 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 public class ServerCommands {
-    public static int share(WSPlayer sender, WSPlayer player, String waypointID, ObjectType objectType) {
+    public static void share(WSPlayer sender, WSPlayer player, String waypointID, ObjectType objectType) {
         if (ServerConfig.serverConfig.sharingEnabled)
         {
-            if (sender.equals(player))
+            if (sender.equals(player) && !Constants.DEBUG)
             {
                 PlayerNetworkingHelper.sendUserMessage(sender, "sharing.jmws.cannot_share", true, false);
             } else {
@@ -39,7 +40,6 @@ public class ServerCommands {
         } else {
             PlayerNetworkingHelper.sendUserMessage(sender, "sharing.jmws.no_server_sharing", true, JMWSMessageType.FAILURE);
         }
-        return 1;
     }
 
     public static int removeShare(WSPlayer sender, String waypointID, ObjectType objectType) {

@@ -6,9 +6,11 @@ import me.brynview.navidrohim.common.CommonClass;
 import me.brynview.navidrohim.common.Constants;
 import me.brynview.navidrohim.common.api.WSPlayer;
 import me.brynview.navidrohim.common.enums.ObjectType;
+import me.brynview.navidrohim.common.helper.CommandFactory;
 import me.brynview.navidrohim.common.helper.CommonHelper;
 import me.brynview.navidrohim.common.io.JMWSServerIO;
 import me.brynview.navidrohim.common.io.UserSharingFile;
+import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.common.syncing.SyncingInformation;
 import org.jetbrains.annotations.Nullable;
 
@@ -244,10 +246,8 @@ public class ServerObject extends LegacyObject implements PossessesIdentifier {
     }
 
     public void share(WSPlayer us, WSPlayer player) {
-
-        //Dispatcher.sendToClient(new JMWSActionPayload(CommandFactory.makeObjectShareRequestForUser(this.rawPacketData, this.ownerUUID, player.getUUID(), ShareRequest.Direction.FOR_CLIENT, getObjectType())), player); // Send share request to player TODO: PACKET
-        // Send information of the share to the sender. This is needed because this command is server-side only and the client will have no knowledge of the shared obj.
-        //Dispatcher.sendToClient(new JMWSActionPayload(CommandFactory.makeObjectShareRequestForUser(this.rawPacketData, player.getUUID(), this.ownerUUID, ShareRequest.Direction.FOR_HOST, getObjectType())), us); // TODO: PACKET
+        new ActionPacket(CommandFactory.makeObjectShareRequestForUser(this.rawPacketData, this.ownerUUID, player.getUUID(), CommandFactory.Direction.FOR_CLIENT, getObjectType()), player).send();
+        new ActionPacket(CommandFactory.makeObjectShareRequestForUser(this.rawPacketData, player.getUUID(), this.ownerUUID, CommandFactory.Direction.FOR_HOST, getObjectType()), us).send();
     }
 
     public void stopSharing(UUID user)

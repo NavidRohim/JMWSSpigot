@@ -22,6 +22,12 @@ public class CommandFactory {
         }
     }
 
+    public enum Direction
+    {
+        FOR_HOST,
+        FOR_CLIENT
+    }
+
     public static String makeBaseJsonRequest(Commands command, Object... arguments) {
        return CommonClass.gson.toJson(new PacketCommand(command, arguments));
     }
@@ -39,6 +45,11 @@ public class CommandFactory {
                 removeGroupItself,
                 isGlobal,
                 deleteAllGroups);
+    }
+
+    public static String makeObjectShareRequestForUser(String waypoint, UUID to, UUID from, Direction direction, ObjectType objectType)
+    {
+        return CommandFactory.makeBaseJsonRequest(Commands.OBJECT_SHARE, waypoint, to, from, objectType, direction);
     }
 
     public static String makeWaypointSyncRequestJson(boolean sendAlert, boolean isForDeathSync) {
