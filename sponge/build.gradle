@@ -1,0 +1,74 @@
+import org.spongepowered.gradle.plugin.config.PluginLoaders
+import org.spongepowered.plugin.metadata.model.PluginDependency
+
+plugins {
+    id 'java-library'
+    id 'org.spongepowered.gradle.plugin' version '2.2.0'
+}
+
+group = 'me.brynview.navidrohim'
+version = '0.0.1-alpha.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://repo.spongepowered.org/maven/'
+        name = 'spongepowered-repo'
+    }
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation project(":common")
+}
+
+sponge {
+    apiVersion '13.1.0-SNAPSHOT'
+    license 'MIT'
+
+    loader {
+        name PluginLoaders.JAVA_PLAIN
+                version '1.0'
+    }
+
+    plugin('JMWSSponge') {
+        displayName 'JMWSSponge'
+        entrypoint 'me.brynview.navidrohim.sponge.JMWSSponge'
+        description 'JMWS for Sponge'
+
+        links {
+            // homepage 'https://spongepowered.org'
+            // source 'https://spongepowered.org/source'
+            // issues 'https://spongepowered.org/issues'
+        }
+
+        contributor('Navid Rohim') {
+            description 'Author'
+        }
+
+        dependency('spongeapi') {
+            loadOrder PluginDependency.LoadOrder.AFTER
+                    optional false
+        }
+    }
+}
+
+def javaTarget = 21 // Sponge targets a minimum of Java 21
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaTarget)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'utf-8'
+    if (JavaVersion.current().isJava10Compatible()) {
+        options.release = javaTarget
+    }
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    reproducibleFileOrder = true
+    preserveFileTimestamps = false
+}

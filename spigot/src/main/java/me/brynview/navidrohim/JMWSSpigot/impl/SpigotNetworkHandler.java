@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 public class SpigotNetworkHandler implements WSNetworkHandler {
 
+
     private final WSPlayer networkOwner;
     private final Player player;
 
