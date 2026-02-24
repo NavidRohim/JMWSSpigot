@@ -48,9 +48,9 @@ public final class JMWSSpigot extends JavaPlugin implements PluginMessageListene
 
     private void registerNetworkChannels()
     {
-        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, HandshakePacket.getChannel());
-        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, ActionPacket.getChannel());
-        server.getNativeServer().getMessenger().registerIncomingPluginChannel(this, ActionPacket.getChannel(), this);
+        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, HandshakePacket.CHANNEL);
+        server.getNativeServer().getMessenger().registerOutgoingPluginChannel(this, ActionPacket.CHANNEL);
+        server.getNativeServer().getMessenger().registerIncomingPluginChannel(this, ActionPacket.CHANNEL, this);
     }
 
     @Override

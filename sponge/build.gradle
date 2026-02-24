@@ -23,7 +23,7 @@ dependencies {
 }
 
 sponge {
-    apiVersion '13.1.0-SNAPSHOT'
+    apiVersion '17.0.0'
     license 'MIT'
 
     loader {
@@ -31,8 +31,8 @@ sponge {
                 version '1.0'
     }
 
-    plugin('JMWSSponge') {
-        displayName 'JMWSSponge'
+    plugin('jmwsponge') {
+        displayName 'JMWS'
         entrypoint 'me.brynview.navidrohim.sponge.JMWSSponge'
         description 'JMWS for Sponge'
 

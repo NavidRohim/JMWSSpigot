@@ -21,6 +21,8 @@ public final class ActionPacket implements WSPacket {
     public List<JsonElement> argumentList = null;
     public WSPlayer player;
 
+    public static final String CHANNEL = "%s:action_command".formatted(Constants.MODID);
+
     public ActionPacket(byte[] jsonData, WSPlayer player)
     {
         ByteArrayDataInput in = ByteStreams.newDataInput(jsonData);
@@ -80,8 +82,8 @@ public final class ActionPacket implements WSPacket {
     }
 
 
-    public static String getChannel()
+    public String getChannel()
     {
-        return "%s:action_command".formatted(Constants.MODID);
+        return CHANNEL;
     }
 }

@@ -17,6 +17,8 @@ public final class HandshakePacket implements WSPacket {
     private final byte[] data;
     private final WSPlayer player;
 
+    public static final String CHANNEL = "%s:jmws_handshake".formatted(Constants.MODID);
+
     public static void setServerConfigForClient()
     {
         JsonObject jsonObject = JsonParser.parseString(ServerConfig.rawServerConfigData).getAsJsonObject();
@@ -38,7 +40,7 @@ public final class HandshakePacket implements WSPacket {
 
     @Override
     public HandshakePacket send() {
-        this.player.getNetworkHandler().sendPacket(HandshakePacket.getChannel(),this);
+        this.player.getNetworkHandler().sendPacket(this.getChannel(),this);
         return this;
     }
 
@@ -47,8 +49,8 @@ public final class HandshakePacket implements WSPacket {
         return this.player;
     }
 
-    public static String getChannel()
+    public String getChannel()
     {
-        return "%s:jmws_handshake".formatted(Constants.MODID);
+        return CHANNEL;
     }
 }

@@ -62,6 +62,6 @@ public class SpigotPlayer implements WSPlayer
 
     @Override
     public void sendActionCommand(ActionPacket command) {
-        this.getNetworkHandler().sendPacket(ActionPacket.getChannel(), command.encode());
+        this.getNetworkHandler().sendPacket(command.getChannel(), command.encode());
     }
 }

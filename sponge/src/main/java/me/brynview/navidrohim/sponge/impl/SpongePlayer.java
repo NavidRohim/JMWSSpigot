@@ -14,13 +14,13 @@ import java.util.UUID;
 public class SpongePlayer implements WSPlayer {
 
     public final Player nativePlayer;
-    public final Server server;
+    public final WSServer server;
     public final SpongeNetworkHandler networkHandler;
 
     public SpongePlayer(ServerPlayer nativePlayer) {
         this.nativePlayer = nativePlayer;
-        this.server = JMWSSponge.getServer();
-        this.networkHandler = new SpongeNetworkHandler();
+        this.server = JMWSSponge.commonServer;
+        this.networkHandler = new SpongeNetworkHandler(nativePlayer, this);
     }
 
     @Override
@@ -35,12 +35,13 @@ public class SpongePlayer implements WSPlayer {
 
     @Override
     public void sendHandshake() {
-
+        this.networkHandler.sendHandshake();
     }
 
     @Override
-    public void sendActionCommand(ActionPacket command) {
-
+    public void sendActionCommand(ActionPacket command)
+    {
+        this.getNetworkHandler().sendPacket(command.getChannel(), command);
     }
 
     @Override
@@ -50,6 +51,6 @@ public class SpongePlayer implements WSPlayer {
 
     @Override
     public WSServer getServer() {
-        return null;
+        return this.server;
     }
 }

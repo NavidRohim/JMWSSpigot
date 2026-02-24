@@ -30,7 +30,7 @@ public class SpigotNetworkHandler implements WSNetworkHandler {
     @Override
     public void sendHandshake()
     {
-        new HandshakePacket(this.networkOwner).send();
+        this.getNetworkOwner().sendHandshake();
     }
 
     public void sendPacket(String channel, byte[] packetData)

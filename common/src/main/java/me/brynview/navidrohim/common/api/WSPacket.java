@@ -7,6 +7,6 @@ public interface WSPacket {
     WSPacket send();
     WSPlayer getRecipient();
 
-    static String getChannel() {return null;}
+    String getChannel();
 
 }
