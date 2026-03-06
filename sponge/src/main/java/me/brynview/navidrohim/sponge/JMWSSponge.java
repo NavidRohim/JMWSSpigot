@@ -39,7 +39,7 @@ public class JMWSSponge {
     public static SpongeServer commonServer;
 
     @Inject
-    JMWSSponge(final PluginContainer container, final Logger logger) {
+    JMWSSponge(final PluginContainer container) {
         this.container = container;
         this.logger = Constants.getLogger();
     }
@@ -61,6 +61,7 @@ public class JMWSSponge {
         // using the integrated (singleplayer) server.
         JMWSSponge.serverObj = event.engine();
         JMWSSponge.commonServer = new SpongeServer(JMWSSponge.serverObj);
+        CommonClass.init(commonServer);
     }
 
     @Listener
