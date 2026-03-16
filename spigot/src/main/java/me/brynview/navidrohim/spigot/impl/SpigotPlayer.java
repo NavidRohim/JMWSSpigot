@@ -1,9 +1,9 @@
 package me.brynview.navidrohim.spigot.impl;
 
 import me.brynview.navidrohim.spigot.JMWSSpigot;
-import me.brynview.navidrohim.common.api.WSPlayer;
-import me.brynview.navidrohim.common.api.WSNetworkHandler;
-import me.brynview.navidrohim.common.api.WSServer;
+import me.brynview.navidrohim.common.api.game.WSPlayer;
+import me.brynview.navidrohim.common.api.networking.WSNetworkHandler;
+import me.brynview.navidrohim.common.api.game.WSServer;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -5,7 +5,7 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.*;
 import dev.jorel.commandapi.executors.CommandArguments;
 import me.brynview.navidrohim.common.CommonClass;
-import me.brynview.navidrohim.common.api.WSPlayer;
+import me.brynview.navidrohim.common.api.game.WSPlayer;
 import me.brynview.navidrohim.common.commands.ServerCommands;
 import me.brynview.navidrohim.common.commands.SuggestionProvider;
 import me.brynview.navidrohim.common.enums.ObjectType;

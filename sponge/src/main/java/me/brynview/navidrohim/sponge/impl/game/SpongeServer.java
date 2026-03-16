@@ -1,8 +1,8 @@
-package me.brynview.navidrohim.sponge.impl;
+package me.brynview.navidrohim.sponge.impl.game;
 
-import me.brynview.navidrohim.common.api.PacketFlow;
-import me.brynview.navidrohim.common.api.WSPlayer;
-import me.brynview.navidrohim.common.api.WSServer;
+import me.brynview.navidrohim.common.api.networking.PacketFlow;
+import me.brynview.navidrohim.common.api.game.WSPlayer;
+import me.brynview.navidrohim.common.api.game.WSServer;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.sponge.JMWSSponge;
 import me.brynview.navidrohim.sponge.MessageHandler;

@@ -1,6 +1,6 @@
-package me.brynview.navidrohim.common.api;
+package me.brynview.navidrohim.common.api.networking;
 
-import me.brynview.navidrohim.common.network.Utils;
+import me.brynview.navidrohim.common.api.game.WSPlayer;
 
 public interface WSPacket {
     byte[] encode();

@@ -1,5 +1,6 @@
-package me.brynview.navidrohim.common.api;
+package me.brynview.navidrohim.common.api.game;
 
+import me.brynview.navidrohim.common.api.networking.WSNetworkHandler;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 
 import java.util.UUID;

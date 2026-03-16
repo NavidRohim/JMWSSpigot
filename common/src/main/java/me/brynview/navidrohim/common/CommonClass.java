@@ -2,13 +2,18 @@ package me.brynview.navidrohim.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.brynview.navidrohim.common.api.PacketFlow;
-import me.brynview.navidrohim.common.api.WSServer;
+import me.brynview.navidrohim.common.api.commands.Argument;
+import me.brynview.navidrohim.common.api.commands.ArgumentTypes;
+import me.brynview.navidrohim.common.api.commands.Command;
+import me.brynview.navidrohim.common.api.networking.PacketFlow;
+import me.brynview.navidrohim.common.api.game.WSServer;
 import me.brynview.navidrohim.common.config.ServerConfig;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.common.network.packets.HandshakePacket;
 
 import java.io.File;
+import java.util.List;
+
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
 // common compatible binaries. This means common code can not directly use loader specific concepts such as Forge events
 // however it will be compatible with all supported mod loaders.
@@ -21,6 +26,11 @@ public class CommonClass {
     public static final Gson gson = new Gson();
     public static final Gson gsonExcludeNoExpose = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     public static WSServer server;
+
+    public static final List<Command> COMMANDS = List.of(
+            new Command("plant", 0,
+                    new Argument("tree", ArgumentTypes.WAYPOINT))
+    );
 
     public static void _createServerResources() {
         new File("./jmws").mkdir();
