@@ -80,9 +80,4 @@ public class ServerWaypoint extends ServerObject {
     {
         return "<%s name=%s, isGlobal=%s>".formatted(this.getClass().getSimpleName(), this.name, this.syncing.isGlobal());
     }
-
-    public void teleport()
-    {
-        CommonClass.server.teleportPlayer(this.ownerUUID, this.x, this.y, this.z);
-    }
 }

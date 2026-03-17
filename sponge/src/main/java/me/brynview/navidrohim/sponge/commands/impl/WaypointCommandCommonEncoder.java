@@ -27,9 +27,4 @@ public class WaypointCommandCommonEncoder implements SpongeCommandCommonEncoder 
     public Optional<ServerWaypoint> getCommonParameterValue(Object value, UUID commandSenderUUID) {
         return ObjectType.WAYPOINT.getServerObject(value.toString(), commandSenderUUID);
     }
-
-    @Override
-    public ArgumentTypes getType() {
-        return ArgumentTypes.WAYPOINT;
-    }
 }

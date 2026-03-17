@@ -27,9 +27,4 @@ public class GroupCommandCommonEncoder implements SpongeCommandCommonEncoder {
     public Optional<ServerGroup> getCommonParameterValue(Object value, UUID commandSenderUUID) {
         return ObjectType.GROUP.getServerObject(value.toString(), commandSenderUUID);
     }
-
-    @Override
-    public ArgumentTypes getType() {
-        return ArgumentTypes.GROUP;
-    }
 }

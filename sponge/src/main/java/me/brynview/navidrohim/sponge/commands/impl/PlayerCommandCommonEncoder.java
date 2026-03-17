@@ -25,9 +25,4 @@ public class PlayerCommandCommonEncoder implements SpongeCommandCommonEncoder {
         }
         return Optional.empty();
     }
-
-    @Override
-    public ArgumentTypes getType() {
-        return ArgumentTypes.PLAYER;
-    }
 }

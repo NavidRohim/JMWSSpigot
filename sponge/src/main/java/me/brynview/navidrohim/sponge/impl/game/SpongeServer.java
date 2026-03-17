@@ -70,6 +70,7 @@ public class SpongeServer implements WSServer {
         }
 
     }
+    // TODO: Fix no optional checking, important
 
     @Override
     public WSPlayer getWSPlayer(UUID uuid) {
@@ -81,11 +82,5 @@ public class SpongeServer implements WSServer {
     public WSPlayer getWSPlayer(String name) {
         Optional<ServerPlayer> serverPlayer = SpongeServer.nativeServer.player(name);
         return new SpongePlayer(serverPlayer.get());
-    }
-
-    @Override
-    public void teleportPlayer(UUID uuid, int x, int y, int z) {
-        Optional<ServerPlayer> player = nativeServer.player(uuid);
-        player.get().setPosition(new Vector3d(x, y, z));
     }
 }

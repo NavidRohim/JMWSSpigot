@@ -9,5 +9,4 @@ import java.util.UUID;
 public interface SpongeCommandCommonEncoder {
     SpongeArgumentType<?> buildParameterForNative();
     Optional<?> getCommonParameterValue(Object value, UUID commandSenderUUID);
-    ArgumentTypes getType();
 }
