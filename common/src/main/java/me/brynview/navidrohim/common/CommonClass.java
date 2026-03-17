@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.brynview.navidrohim.common.api.commands.Argument;
 import me.brynview.navidrohim.common.api.commands.ArgumentTypes;
-import me.brynview.navidrohim.common.api.commands.Command;
+import me.brynview.navidrohim.common.api.commands.CommonCommand;
+import me.brynview.navidrohim.common.api.commands.CommonCommandContext;
 import me.brynview.navidrohim.common.api.networking.PacketFlow;
 import me.brynview.navidrohim.common.api.game.WSServer;
 import me.brynview.navidrohim.common.config.ServerConfig;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.common.network.packets.HandshakePacket;
+import me.brynview.navidrohim.common.objects.ServerWaypoint;
 
 import java.io.File;
 import java.util.List;
@@ -27,10 +29,13 @@ public class CommonClass {
     public static final Gson gsonExcludeNoExpose = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     public static WSServer server;
 
-    public static final List<Command> COMMANDS = List.of(
-            new Command("plant", 0,
-                    new Argument("tree", ArgumentTypes.WAYPOINT))
+    public static final List<CommonCommand> COMMON_COMMANDS = List.of(new CommonCommand("plant", 0, CommonClass::test, new Argument("tree", ArgumentTypes.WAYPOINT))
     );
+
+    private static void test(CommonCommandContext ctx) {
+        Constants.getLogger().info("TESTING COM");
+        ctx.getArgumentAsType("waypointName", ServerWaypoint.class);
+    }
 
     public static void _createServerResources() {
         new File("./jmws").mkdir();
