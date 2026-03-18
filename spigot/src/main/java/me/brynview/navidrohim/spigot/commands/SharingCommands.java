@@ -17,6 +17,7 @@ import java.util.List;
 
 public class SharingCommands {
 
+    /*
     private static final List<Command> commands = List.of(
             new Command(
                     "share_waypoint",
@@ -80,6 +81,7 @@ public class SharingCommands {
         });
         adminCommandBase.register();
     }
+
 
     private static void doGpShareArgPrep(CommandSender commandSender, CommandArguments commandArguments)
     {
@@ -205,5 +207,5 @@ public class SharingCommands {
                 (cssi -> SuggestionProvider.suggestGlobalGroups(cssi.sender().getServer().getPlayer(cssi.sender().getName()).getUniqueId()))
         ));
         return argument;
-    }
+    }*/
 }

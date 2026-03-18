@@ -1,31 +1,36 @@
 package me.brynview.navidrohim.common.commands;
 
 import me.brynview.navidrohim.common.Constants;
+import me.brynview.navidrohim.common.api.commands.CommonCommand;
+import me.brynview.navidrohim.common.api.commands.CommonCommandContext;
 import me.brynview.navidrohim.common.api.game.WSPlayer;
 import me.brynview.navidrohim.common.config.ServerConfig;
 import me.brynview.navidrohim.common.enums.JMWSMessageType;
 import me.brynview.navidrohim.common.enums.ObjectType;
+import me.brynview.navidrohim.common.exceptions.CommandException;
 import me.brynview.navidrohim.common.io.JMWSServerIO;
 import me.brynview.navidrohim.common.network.PlayerNetworkingHelper;
+import me.brynview.navidrohim.common.objects.ServerGroup;
 import me.brynview.navidrohim.common.objects.ServerObject;
+import me.brynview.navidrohim.common.objects.ServerWaypoint;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class ServerCommands {
-    public static void share(WSPlayer sender, WSPlayer player, String waypointID, ObjectType objectType) {
+
+    private static void shareAny(WSPlayer sender, WSPlayer player, Optional<? extends ServerObject> shareableObject) {
         if (ServerConfig.serverConfig.sharingEnabled)
         {
-            if (sender.equals(player) && !Constants.DEBUG)
+            if (sender.equals(player))
             {
                 PlayerNetworkingHelper.sendUserMessage(sender, "sharing.jmws.cannot_share", true, false);
             } else {
-                HashMap<String, Path> userObjs = JMWSServerIO.getNameHashmapLookup(sender.getUUID(), objectType);
-                Path specifiedObj = userObjs.get(waypointID);
-                if (specifiedObj != null)
+                if (shareableObject.isPresent())
                 {
-                    ServerObject objIns = JMWSServerIO.getObjectFromFile(specifiedObj, sender.getUUID(), objectType);
+                    ServerObject objIns = shareableObject.get();
                     if (!objIns.syncing.isGlobal())
                     {
                         objIns.share(sender, player);
@@ -39,6 +44,34 @@ public class ServerCommands {
             }
         } else {
             PlayerNetworkingHelper.sendUserMessage(sender, "sharing.jmws.no_server_sharing", true, JMWSMessageType.FAILURE);
+        }
+    }
+
+    public static void share(CommonCommandContext ctx) {
+
+        try
+        {
+            WSPlayer sender = ctx.getPlayer("sender");
+            WSPlayer player = ctx.getPlayer("player");
+            Optional<ServerWaypoint> waypoint = ctx.getWaypointOptional("waypoint");
+
+            shareAny(sender, player, waypoint);
+        } catch (CommandException e) {
+            Constants.getLogger().info("Failed to execute share command, error message: " + e.getMessage());
+        }
+    }
+
+    public static void shareGroup(CommonCommandContext ctx) {
+
+        try
+        {
+            WSPlayer sender = ctx.getPlayer("sender");
+            WSPlayer player = ctx.getPlayer("player");
+            Optional<ServerGroup> group = ctx.getGroupOptional("waypoint");
+
+            shareAny(sender, player, group);
+        } catch (CommandException e) {
+            Constants.getLogger().info("Failed to execute share command, error message: " + e.getMessage());
         }
     }
 

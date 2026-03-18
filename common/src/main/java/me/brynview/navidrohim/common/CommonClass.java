@@ -9,6 +9,7 @@ import me.brynview.navidrohim.common.api.commands.CommonCommandContext;
 import me.brynview.navidrohim.common.api.game.WSPlayer;
 import me.brynview.navidrohim.common.api.networking.PacketFlow;
 import me.brynview.navidrohim.common.api.game.WSServer;
+import me.brynview.navidrohim.common.commands.ServerCommands;
 import me.brynview.navidrohim.common.config.ServerConfig;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.common.network.packets.HandshakePacket;
@@ -31,13 +32,18 @@ public class CommonClass {
     public static final Gson gsonExcludeNoExpose = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     public static WSServer server;
 
-    public static final List<CommonCommand> COMMON_COMMANDS = List.of(new CommonCommand("argtest", 0, CommonClass::test, new Argument("tree", ArgumentTypes.PLAYER))
+    public static final List<CommonCommand> COMMON_COMMANDS = List.of(
+            new CommonCommand("share_waypoint", 0, ServerCommands::share,
+                    new Argument("sender", ArgumentTypes.PLAYER),
+                    new Argument("player", ArgumentTypes.PLAYER),
+                    new Argument("waypoint", ArgumentTypes.WAYPOINT)
+            ),
+            new CommonCommand("share_group", 0, ServerCommands::shareGroup,
+                    new Argument("sender", ArgumentTypes.PLAYER),
+                    new Argument("player", ArgumentTypes.PLAYER),
+                    new Argument("group", ArgumentTypes.GROUP)
+            )
     );
-
-    private static void test(CommonCommandContext ctx) {
-        Optional<WSPlayer> serverWaypoint = ctx.getArgumentAsType("tree", WSPlayer.class);
-        serverWaypoint.ifPresent(a -> {Constants.getLogger().info(a.getName());});
-    }
 
     public static void _createServerResources() {
         new File("./jmws").mkdir();
