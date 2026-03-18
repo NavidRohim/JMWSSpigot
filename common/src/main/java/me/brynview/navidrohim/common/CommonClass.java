@@ -42,10 +42,10 @@ public class CommonClass {
                     new Argument("group", ArgumentTypes.GROUP)
             ),
             new CommonCommand("stop_sharing_group", false, ServerCommands::removeShareGroup,
-                    new Argument("group", ArgumentTypes.GROUP)
+                    new Argument("group", ArgumentTypes.SHARED_GROUP)
             ),
             new CommonCommand("stop_sharing_waypoint", false, ServerCommands::removeShareWaypoint,
-                    new Argument("waypoint", ArgumentTypes.WAYPOINT)
+                    new Argument("waypoint", ArgumentTypes.SHARED_WAYPOINT)
             ),
 
             new CommonCommand("create_global_waypoint", true, ServerCommands::globalWaypoint,
@@ -55,10 +55,10 @@ public class CommonClass {
                     new Argument("group", ArgumentTypes.GROUP)
             ),
             new CommonCommand("remove_global_waypoint", true, ServerCommands::nonGlobalWaypoint,
-                    new Argument("waypoint", ArgumentTypes.WAYPOINT)
+                    new Argument("waypoint", ArgumentTypes.GLOBAL_WAYPOINT)
             ),
             new CommonCommand("remove_global_group", true, ServerCommands::nonGlobalGroup,
-                    new Argument("group", ArgumentTypes.GROUP)
+                    new Argument("group", ArgumentTypes.GLOBAL_GROUP)
             )
 
     );

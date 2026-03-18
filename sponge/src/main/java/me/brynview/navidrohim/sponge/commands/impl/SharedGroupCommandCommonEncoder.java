@@ -8,17 +8,16 @@ import org.spongepowered.api.command.parameter.Parameter;
 import java.util.Optional;
 import java.util.UUID;
 
-import static me.brynview.navidrohim.sponge.commands.impl.ImplUtil.withCompletionListOfObjects;
 import static me.brynview.navidrohim.sponge.commands.impl.ImplUtil.withCompletionListOfSharedObjects;
 
-public class SharedWaypointCommandCommonEncoder extends WaypointCommandCommonEncoder {
+public class SharedGroupCommandCommonEncoder extends GroupCommandCommonEncoder {
 
-    private static Parameter.Value.Builder<String> sharedWaypoints() {
-        return withCompletionListOfSharedObjects(ObjectType.WAYPOINT);
+    private static Parameter.Value.Builder<String> sharedGroups() {
+        return withCompletionListOfSharedObjects(ObjectType.GROUP);
     }
 
     @Override
     public SpongeArgumentType<?> buildParameterForNative() {
-        return new SpongeArgumentType<>(String.class, SharedWaypointCommandCommonEncoder::sharedWaypoints);
+        return new SpongeArgumentType<>(String.class, SharedGroupCommandCommonEncoder::sharedGroups);
     }
 }

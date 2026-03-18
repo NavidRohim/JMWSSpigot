@@ -7,10 +7,7 @@ import me.brynview.navidrohim.common.api.commands.ArgumentTypes;
 import me.brynview.navidrohim.common.events.CommonEvents;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.sponge.commands.SpongeCommands;
-import me.brynview.navidrohim.sponge.commands.impl.GroupCommandCommonEncoder;
-import me.brynview.navidrohim.sponge.commands.impl.PlayerCommandCommonEncoder;
-import me.brynview.navidrohim.sponge.commands.impl.SharedWaypointCommandCommonEncoder;
-import me.brynview.navidrohim.sponge.commands.impl.WaypointCommandCommonEncoder;
+import me.brynview.navidrohim.sponge.commands.impl.*;
 import me.brynview.navidrohim.sponge.impl.PluginMetadata;
 import me.brynview.navidrohim.sponge.impl.game.SpongePlayer;
 import me.brynview.navidrohim.sponge.impl.game.SpongeServer;
@@ -101,11 +98,11 @@ public class JMWSSponge {
         * */
         SpongeCommands.registerArgument(ArgumentTypes.WAYPOINT, new WaypointCommandCommonEncoder());
         SpongeCommands.registerArgument(ArgumentTypes.SHARED_WAYPOINT, new SharedWaypointCommandCommonEncoder());
-        SpongeCommands.registerArgument(ArgumentTypes.GLOBAL_GROUP, new SharedWaypointCommandCommonEncoder());
+        SpongeCommands.registerArgument(ArgumentTypes.GLOBAL_WAYPOINT, new GlobalWaypointCommandCommonEncoder());
 
         SpongeCommands.registerArgument(ArgumentTypes.GROUP, new GroupCommandCommonEncoder());
-        SpongeCommands.registerArgument(ArgumentTypes.SHARED_GROUP, new GroupCommandCommonEncoder());
-        SpongeCommands.registerArgument(ArgumentTypes.GLOBAL_GROUP, new GroupCommandCommonEncoder());
+        SpongeCommands.registerArgument(ArgumentTypes.SHARED_GROUP, new SharedGroupCommandCommonEncoder());
+        SpongeCommands.registerArgument(ArgumentTypes.GLOBAL_GROUP, new GlobalGroupCommandCommonEncoder());
 
         SpongeCommands.registerArgument(ArgumentTypes.PLAYER, new PlayerCommandCommonEncoder());
 
