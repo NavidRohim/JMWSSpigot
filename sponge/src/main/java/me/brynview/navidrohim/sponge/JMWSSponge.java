@@ -83,9 +83,24 @@ public class JMWSSponge {
 
     @Listener
     public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event) {
-        SpongeCommands.registerArgument(ArgumentTypes.WAYPOINT, new  WaypointCommandCommonEncoder());
-        SpongeCommands.registerArgument(ArgumentTypes.GROUP, new  GroupCommandCommonEncoder());
-        SpongeCommands.registerArgument(ArgumentTypes.PLAYER, new  PlayerCommandCommonEncoder());
+
+        /* How to add new common argument encoder (made for myself because I will forget)
+        *
+        * Make a new argument type, name it whatever you like.
+        * Make a class which implements SpongeCommandCommonEncoder
+        * Override buildParameterForNative, make it return SpongeArgumentType with the class of the value you want the parameter,
+        * and the builder (just use the default constuctor it's very easy)
+        *
+        * Also override getCommonParameterValue and make it return whatever object will be in the common namespace.
+        * Can be anything at all as long as it works in the common namespace. Can be a player, entity, location, anything.
+        * There is one parameter, "value" of which the annotation is just Object. This is whatever you definied the class to be in buildParameterForNative. For example, it might ServerPlayer
+        * if you specified Parameter::player. But once again, ServerPlayer isn't in the common namespace so you cannot directly return that.
+        *
+        * Register the class you made here with the new ArgumentType and an instance of your encoder.
+        * */
+        SpongeCommands.registerArgument(ArgumentTypes.WAYPOINT, new WaypointCommandCommonEncoder());
+        SpongeCommands.registerArgument(ArgumentTypes.GROUP, new GroupCommandCommonEncoder());
+        SpongeCommands.registerArgument(ArgumentTypes.PLAYER, new PlayerCommandCommonEncoder());
 
         CommonClass.COMMON_COMMANDS.forEach(command -> {
             SpongeCommands.registerCommand(command, event);});
