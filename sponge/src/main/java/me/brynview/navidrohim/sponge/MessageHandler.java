@@ -1,6 +1,7 @@
 package me.brynview.navidrohim.sponge;
 
 import me.brynview.navidrohim.common.Constants;
+import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import me.brynview.navidrohim.sponge.impl.SpongePlayer;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
@@ -21,6 +22,12 @@ public class MessageHandler implements RawPlayDataHandler<EngineConnectionState.
 
     @Override
     public void handlePayload(ChannelBuf data, EngineConnectionState.Game state) {
-        JMWSSponge.getPlugin().onPluginMessage(channel, new SpongePlayer((ServerPlayer) state.player()), data.readBytes(data.capacity()));
+        onPluginMessage(channel, new SpongePlayer((ServerPlayer) state.player()), data.readBytes(data.capacity()));
+    }
+
+    public void onPluginMessage(String channel, SpongePlayer spongePlayer, byte[] bytes) {
+        if (channel.equalsIgnoreCase(ActionPacket.CHANNEL)) {
+            new ActionPacket(bytes, spongePlayer).process();
+        }
     }
 }

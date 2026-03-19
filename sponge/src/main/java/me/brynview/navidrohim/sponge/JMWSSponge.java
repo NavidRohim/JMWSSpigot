@@ -27,6 +27,9 @@ import org.spongepowered.api.event.network.ServerSideConnectionEvent;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The main class of your Sponge plugin.
  *
@@ -56,6 +59,7 @@ public class JMWSSponge {
     {
         return instance;
     }
+
     @Listener
     public void onConstructPlugin(final ConstructPluginEvent event) {
         // Perform any one-time setup
@@ -84,32 +88,8 @@ public class JMWSSponge {
     }
 
     @Listener
-    public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event) {
-        // Register a simple command
-        // When possible, all commands should be registered within a command register event
-        final Parameter.Value<String> nameParam = Parameter.string().key("name").build();
-        event.register(this.container, Command.builder()
-            .addParameter(nameParam)
-            .permission("sponge.command.greet")
-            .executor(ctx -> {
-                final String name = ctx.requireOne(nameParam);
-                ctx.sendMessage(Identity.nil(), LinearComponents.linear(
-                    NamedTextColor.AQUA,
-                    Component.text("Hello "),
-                    Component.text(name, Style.style(TextDecoration.BOLD)),
-                    Component.text("!")
-                ));
-
-                return CommandResult.success();
-            })
-            .build(), "greet", "wave");
-    }
-
-    public void onPluginMessage(String channel, SpongePlayer spongePlayer, byte[] bytes) {
-        Constants.getLogger().info(channel);
-        Constants.getLogger().info(ActionPacket.CHANNEL);
-        if (channel.equalsIgnoreCase(ActionPacket.CHANNEL)) {
-            new ActionPacket(bytes, spongePlayer).process();
-        }
+    public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event)
+    {
+        SpongeCommands.register(event, this.container);
     }
 }
