@@ -88,7 +88,6 @@ public class SpongeCommands {
     private record CommandNameWrapper(Command.Parameterized command, String name) {}
 
     public static void register(final RegisterCommandEvent<Command.Parameterized> event, PluginContainer container) {
-        // TODO Add autocompletion results to object parameters
 
         List<CommandNameWrapper> commands = List.of(
                 new CommandNameWrapper(
@@ -124,7 +123,22 @@ public class SpongeCommands {
         );
 
         List<CommandNameWrapper> adminCommands = List.of(
-
+            new CommandNameWrapper(Command.builder()
+                    .addParameter(waypointParameter)
+                    .executor(SpongeCommands::createGlobalWaypoint)
+                    .build(), "create_global_waypoint"),
+            new CommandNameWrapper(Command.builder()
+                    .addParameter(groupParameter)
+                    .executor(SpongeCommands::createGlobalGroup)
+                    .build(), "create_global_group"),
+            new CommandNameWrapper(Command.builder()
+                    .addParameter(globalWaypointParameter)
+                    .executor(SpongeCommands::removeGlobalWaypoint)
+                    .build(), "remove_global_waypoint"),
+            new CommandNameWrapper(Command.builder()
+                    .addParameter(globalGroupParameter)
+                    .executor(SpongeCommands::removeGlobalGroup)
+                    .build(), "remove_global_group")
         );
 
         for (CommandNameWrapper command : commands) {
@@ -200,6 +214,66 @@ public class SpongeCommands {
             String identifier = commandContext.requireOne(waypointParameter);
 
             ServerCommands.removeShare(commandSender, identifier, ObjectType.GROUP);
+
+            return CommandResult.success();
+        }
+
+        return notValidUser();
+    }
+
+    private static CommandResult createGlobalWaypoint(CommandContext commandContext)
+    {
+        Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
+        if (senderUUID.isPresent()) {
+            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            String identifier = commandContext.requireOne(waypointParameter);
+
+            ServerCommands.globalShare(identifier, commandSender, ObjectType.WAYPOINT, true);
+
+            return CommandResult.success();
+        }
+
+        return notValidUser();
+    }
+
+    private static CommandResult createGlobalGroup(CommandContext commandContext)
+    {
+        Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
+        if (senderUUID.isPresent()) {
+            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            String identifier = commandContext.requireOne(groupParameter);
+
+            ServerCommands.globalShare(identifier, commandSender, ObjectType.GROUP, true);
+
+            return CommandResult.success();
+        }
+
+        return notValidUser();
+    }
+
+    private static CommandResult removeGlobalWaypoint(CommandContext commandContext)
+    {
+        Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
+        if (senderUUID.isPresent()) {
+            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            String identifier = commandContext.requireOne(globalWaypointParameter);
+
+            ServerCommands.globalShare(identifier, commandSender, ObjectType.WAYPOINT, false);
+
+            return CommandResult.success();
+        }
+
+        return notValidUser();
+    }
+
+    private static CommandResult removeGlobalGroup(CommandContext commandContext)
+    {
+        Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
+        if (senderUUID.isPresent()) {
+            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            String identifier = commandContext.requireOne(globalGroupParameter);
+
+            ServerCommands.globalShare(identifier, commandSender, ObjectType.GROUP, false);
 
             return CommandResult.success();
         }
