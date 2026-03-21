@@ -162,8 +162,8 @@ public class SpongeCommands {
     private static CommandResult shareWaypoint(CommandContext commandContext)
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
-        if  (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+        if (senderUUID.isPresent()) {
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             WSPlayer subjectedPlayer = new SpongePlayer(commandContext.requireOne(playerParam));
 
             String waypointIdentifier = commandContext.requireOne(waypointParameter);
@@ -180,7 +180,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             WSPlayer subjectedPlayer = new SpongePlayer(commandContext.requireOne(playerParam));
 
             String groupIdentifier = commandContext.requireOne(groupParameter);
@@ -197,7 +197,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             String identifier = commandContext.requireOne(sharedWaypointParameter);
 
             ServerCommands.removeShare(commandSender, identifier, ObjectType.WAYPOINT);
@@ -212,7 +212,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             String identifier = commandContext.requireOne(sharedGroupParameter);
 
             ServerCommands.removeShare(commandSender, identifier, ObjectType.GROUP);
@@ -227,7 +227,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             String identifier = commandContext.requireOne(waypointParameter);
 
             ServerCommands.globalShare(identifier, commandSender, ObjectType.WAYPOINT, true);
@@ -242,7 +242,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             String identifier = commandContext.requireOne(groupParameter);
 
             ServerCommands.globalShare(identifier, commandSender, ObjectType.GROUP, true);
@@ -257,7 +257,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             String identifier = commandContext.requireOne(globalWaypointParameter);
 
             ServerCommands.globalShare(identifier, commandSender, ObjectType.WAYPOINT, false);
@@ -272,7 +272,7 @@ public class SpongeCommands {
     {
         Optional<UUID> senderUUID = commandContext.cause().audience().get(Identity.UUID);
         if (senderUUID.isPresent()) {
-            WSPlayer commandSender = CommonClass.server.getWSPlayer(senderUUID.get());
+            WSPlayer commandSender = CommonClass.server.getWSPlayerAssured(senderUUID.get());
             String identifier = commandContext.requireOne(globalGroupParameter);
 
             ServerCommands.globalShare(identifier, commandSender, ObjectType.GROUP, false);

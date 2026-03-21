@@ -70,15 +70,32 @@ public class SpongeServer implements WSServer {
     }
 
     @Override
-    public WSPlayer getWSPlayer(UUID uuid) {
-        // TODO: Worried about null safety because of the blind call to get()
+    public Optional<WSPlayer> getWSPlayer(UUID uuid) {
         Optional<ServerPlayer> serverPlayer = SpongeServer.nativeServer.player(uuid);
-        return new SpongePlayer(serverPlayer.get());
+        return serverPlayer.map(SpongePlayer::new);
     }
 
     @Override
-    public WSPlayer getWSPlayer(String name) {
+    public Optional<WSPlayer> getWSPlayer(String name) {
         Optional<ServerPlayer> serverPlayer = SpongeServer.nativeServer.player(name);
-        return new SpongePlayer(serverPlayer.get());
+        return serverPlayer.map(SpongePlayer::new);
+    }
+
+    @Override
+    public WSPlayer getWSPlayerAssured(UUID uuid) {
+        Optional<ServerPlayer> serverPlayer = SpongeServer.nativeServer.player(uuid);
+        if (serverPlayer.isPresent()) {
+            return new SpongePlayer(serverPlayer.get());
+        }
+        throw new RuntimeException("Server %s player not found.".formatted(uuid));
+    }
+
+    @Override
+    public WSPlayer getWSPlayerAssured(String name) {
+        Optional<ServerPlayer> serverPlayer = SpongeServer.nativeServer.player(name);
+        if (serverPlayer.isPresent()) {
+            return new SpongePlayer(serverPlayer.get());
+        }
+        throw new RuntimeException("Server %s player not found.".formatted(name));
     }
 }

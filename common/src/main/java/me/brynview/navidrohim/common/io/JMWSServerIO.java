@@ -2,6 +2,7 @@ package me.brynview.navidrohim.common.io;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import me.brynview.navidrohim.common.CommonClass;
 import me.brynview.navidrohim.common.Constants;
 import me.brynview.navidrohim.common.enums.ObjectType;
 import me.brynview.navidrohim.common.exceptions.ObjectError;
@@ -14,6 +15,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,6 +94,9 @@ public class JMWSServerIO {
                     waypointFileList.add(path);
                 }
             });
+        } catch (NoSuchFileException exc) {
+            CommonClass._createServerResources();
+            return getObjectPathsForUser(uuid, objectType, global);
         } catch (IOException err) {
             Constants.getLogger().error("Got error trying to get user objects: %s".formatted(err));
             return List.of();

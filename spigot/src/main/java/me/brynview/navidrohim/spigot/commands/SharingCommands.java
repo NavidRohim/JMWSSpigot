@@ -83,10 +83,10 @@ public class SharingCommands {
 
     private static void doGpShareArgPrep(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName());
 
         PlayerProfile toPlayerProfile = (PlayerProfile) commandArguments.get("username");
-        WSPlayer toPlayer = CommonClass.server.getWSPlayer(toPlayerProfile.getUniqueId());
+        WSPlayer toPlayer = CommonClass.server.getWSPlayerAssured(toPlayerProfile.getUniqueId()); // TODO: DEBUG LATER MAY NOT WORK
 
         String wpName = commandArguments.get("groupName").toString();
 
@@ -95,9 +95,9 @@ public class SharingCommands {
 
     private static void doWpShareArgPrep(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName());
         // Following code makes me want to actually want to die
-        WSPlayer toPlayer = CommonClass.server.getWSPlayer(((ArrayList<PlayerProfile>)commandArguments.get("username")).getFirst().getUniqueId());
+        WSPlayer toPlayer = CommonClass.server.getWSPlayerAssured(((ArrayList<PlayerProfile>)commandArguments.get("username")).getFirst().getUniqueId()); // TODO: DEBUG
         String wpName = commandArguments.get("waypointName").toString();
 
         ServerCommands.share(spigotPlayerSender, toPlayer, wpName, ObjectType.WAYPOINT);
@@ -105,7 +105,7 @@ public class SharingCommands {
 
     private static void stopSharingGp(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName()); // TODO: DEBUG
         String groupName = commandArguments.get("groupName").toString();
 
         ServerCommands.removeShare(spigotPlayerSender,  groupName, ObjectType.GROUP);
@@ -113,7 +113,7 @@ public class SharingCommands {
 
     private static void stopSharingWp(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName()); // TODO: DEBUG
         String waypointName = commandArguments.get("waypointName").toString();
 
         ServerCommands.removeShare(spigotPlayerSender, waypointName, ObjectType.WAYPOINT);
@@ -121,7 +121,7 @@ public class SharingCommands {
 
     private static void createServerWp(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName()); // TODO: DEBUG
         String waypointName = commandArguments.get("waypointName").toString();
 
         ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.WAYPOINT, true);
@@ -129,7 +129,7 @@ public class SharingCommands {
 
     private static void createServerGp(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName()); // TODO: DEBUG
         String waypointName = commandArguments.get("groupName").toString();
 
         ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.GROUP, true);
@@ -137,7 +137,7 @@ public class SharingCommands {
 
     private static void removeServerWp(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName()); // TODO: DEBUG
         String waypointName = commandArguments.get("waypointName").toString();
 
         ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.WAYPOINT, false);
@@ -145,7 +145,7 @@ public class SharingCommands {
 
     private static void removeServerGp(CommandSender commandSender, CommandArguments commandArguments)
     {
-        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayer(commandSender.getName());
+        WSPlayer spigotPlayerSender = CommonClass.server.getWSPlayerAssured(commandSender.getName()); // TODO: DEBUG
         String waypointName = commandArguments.get("groupName").toString();
 
         ServerCommands.globalShare(waypointName, spigotPlayerSender, ObjectType.GROUP, false);

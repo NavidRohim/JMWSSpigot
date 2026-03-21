@@ -347,6 +347,7 @@ public class ServerPacketHandler {
                         {
                             usf.addToShared(objectIdentifier, objType);
                         }
+
                         sharedWp.syncing.addUserToShare(playerUUID);
                         player.getServer().sendActionCommandToClient(ownerUUID, packet);
 

@@ -6,9 +6,11 @@ import me.brynview.navidrohim.common.api.WSPlayer;
 import me.brynview.navidrohim.common.api.WSServer;
 import me.brynview.navidrohim.common.network.packets.ActionPacket;
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.Messenger;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class SpigotServer implements WSServer {
@@ -28,16 +30,16 @@ public class SpigotServer implements WSServer {
     @Override
     public void sendActionCommandToClient(UUID uuid, ActionPacket packet)
     {
-        SpigotPlayer player = this.getWSPlayer(uuid);
-        player.sendActionCommand(packet);
+        Optional<WSPlayer> player = this.getWSPlayer(uuid);
+        player.ifPresent(wsPlayer -> wsPlayer.sendActionCommand(packet));
 
     }
 
     @Override
     public void sendActionCommandToClient(UUID uuid, String packetEncodable)
     {
-        SpigotPlayer player = this.getWSPlayer(uuid);
-        new ActionPacket(packetEncodable, player).send();
+        Optional<WSPlayer> player = this.getWSPlayer(uuid);
+        player.ifPresent(wsPlayer -> new ActionPacket(packetEncodable, wsPlayer).send());
     }
 
     @Override
@@ -56,15 +58,32 @@ public class SpigotServer implements WSServer {
     }
 
     @Override
-    public SpigotPlayer getWSPlayer(UUID uuid)
+    public Optional<WSPlayer> getWSPlayer(UUID uuid)
     {
-        return new SpigotPlayer(this.getNativeServer().getPlayer(uuid));
+        @Nullable Player player = this.getNativeServer().getPlayer(uuid);
+        if (player != null) {
+            return Optional.of(new SpigotPlayer(player));
+        }
+        return Optional.empty();
     }
 
     @Override
-    @Nullable
-    public WSPlayer getWSPlayer(String name) {
-        return new SpigotPlayer(this.getNativeServer().getPlayerExact(name));
+    public Optional<WSPlayer> getWSPlayer(String name) {
+        @Nullable Player player = this.getNativeServer().getPlayerExact(name);
+        if (player != null) {
+            return Optional.of(new SpigotPlayer(player));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public WSPlayer getWSPlayerAssured(UUID uuid) {
+        return null;
+    }
+
+    @Override
+    public WSPlayer getWSPlayerAssured(String name) {
+        return null;
     }
 
     public Server getNativeServer()

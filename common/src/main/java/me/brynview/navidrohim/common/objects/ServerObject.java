@@ -25,6 +25,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -132,18 +133,19 @@ public class ServerObject extends LegacyObject implements PossessesIdentifier {
     public void removeObjectFromUser(UUID playerUUID, String objectIdentifier)
     {
         UserSharingFile.removeObjectFromUser(playerUUID, objectIdentifier, getObjectType());
-        WSPlayer sharedPlayer = CommonClass.server.getWSPlayer(playerUUID);
-        if (sharedPlayer != null)
+        Optional<WSPlayer> sharedPlayer = CommonClass.server.getWSPlayer(playerUUID);
+        if (sharedPlayer.isPresent())
         {
             ActionPacket packet;
             if (this.getObjectType() == ObjectType.WAYPOINT)
             {
-                packet = new ActionPacket(CommandFactory.makeDeleteRequestJson(objectIdentifier, true, false), sharedPlayer);
+                packet = new ActionPacket(CommandFactory.makeDeleteRequestJson(objectIdentifier, true, false), sharedPlayer.get());
             } else {
-                packet = new ActionPacket(CommandFactory.makeDeleteGroupRequestJson(objectIdentifier, null, true, true, true, false, false), sharedPlayer);
+                packet = new ActionPacket(CommandFactory.makeDeleteGroupRequestJson(objectIdentifier, null, true, true, true, false, false), sharedPlayer.get());
             }
             packet.send();
         }
+        // if player isn't present just means they are offline and won't appear for them anyway due to not being present in the USF
     }
 
 
@@ -264,6 +266,7 @@ public class ServerObject extends LegacyObject implements PossessesIdentifier {
         {
             removeObjectFromUser(UUID.fromString(userUUID), this.syncing.objectIdentifier);
         }
+        this.syncing.removeAllFromShare();
     }
 
     public UUID getOwnerUUID()

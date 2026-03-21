@@ -12,7 +12,9 @@ import me.brynview.navidrohim.common.network.ServerPacketHandler;
 import me.brynview.navidrohim.common.objects.ServerObject;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class SyncingInformation {
@@ -67,6 +69,11 @@ public class SyncingInformation {
         this.update();
     }
 
+    public void removeAllFromShare() {
+        this.sharedTo.clear();
+        this.update();
+    }
+
     public boolean isOwner(UUID supposedOwner) {
         return this.owner.equals(supposedOwner);
     }
@@ -97,11 +104,8 @@ public class SyncingInformation {
 
     public void syncToUsers() {
         for (String playerUUID : this.sharedTo) {
-            WSPlayer sharedUser = CommonClass.server.getWSPlayer(UUID.fromString(playerUUID));
-
-            if (sharedUser != null) {
-                ServerPacketHandler.sendUserSync(sharedUser, false, false, true);
-            }
+            Optional<WSPlayer> sharedUser = CommonClass.server.getWSPlayer(UUID.fromString(playerUUID));
+            sharedUser.ifPresent(wsPlayer -> ServerPacketHandler.sendUserSync(wsPlayer, false, false, true));
         }
     }
 }
